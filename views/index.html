@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitor de Sistemas 3D</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="dashboard">
+    <header class="header">
+        <h1>⚡ Super Monitor System</h1>
+    </header>
+
+    <div class="tabs-container">
+        <button class="tab-btn active" onclick="openTab(event, 'visao-geral')">Visão Geral</button>
+        <button class="tab-btn" onclick="openTab(event, 'desempenho')">Desempenho</button>
+        <button class="tab-btn" onclick="openTab(event, 'rede')">Rede</button>
+    </div>
+
+    <div class="tab-content active" id="visao-geral">
+        <div class="grid-panel">
+            
+            <div class="card sys-card">
+                <div class="card-header">
+                    <h3>Uso de CPU</h3>
+                    <div class="led-indicator" style="background: #00f2fe; box-shadow: 0 0 10px #00f2fe;"></div>
+                </div>
+                <div class="circular-progress" id="cpu-circle" style="--color: #00f2fe;">
+                    <div class="inner-circle">
+                        <span class="percentage-text" id="cpu-text">45%</span>
+                    </div>
+                </div>
+                <p class="status-text">A processar...</p>
+            </div>
+
+            <div class="card sys-card">
+                <div class="card-header">
+                    <h3>Memória RAM</h3>
+                    <div class="led-indicator" style="background: #ff0844; box-shadow: 0 0 10px #ff0844;"></div>
+                </div>
+                <div class="circular-progress" id="ram-circle" style="--color: #ff0844;">
+                    <div class="inner-circle">
+                        <span class="percentage-text" id="ram-text">60%</span>
+                    </div>
+                </div>
+                <p class="status-text">8.2 GB / 16 GB</p>
+            </div>
+
+            <div class="card sys-card">
+                <div class="card-header">
+                    <h3>Armazenamento</h3>
+                    <div class="led-indicator" style="background: #00b09b; box-shadow: 0 0 10px #00b09b;"></div>
+                </div>
+                <div class="circular-progress" id="disk-circle" style="--color: #00b09b;">
+                    <div class="inner-circle">
+                        <span class="percentage-text" id="disk-text">72%</span>
+                    </div>
+                </div>
+                <p class="status-text">SSD Principal</p>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="tab-content" id="desempenho">
+        <div class="card">
+            <h2>Gráficos de Desempenho</h2>
+            <p>Área reservada para gráficos detalhados.</p>
+        </div>
+    </div>
+
+    <div class="tab-content" id="rede">
+        <div class="card">
+            <h2>Tráfego de Rede</h2>
+            <p>Download: <strong style="color: #00f2fe;">120 Mbps</strong> | Upload: <strong style="color: #ff0844;">45 Mbps</strong></p>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
