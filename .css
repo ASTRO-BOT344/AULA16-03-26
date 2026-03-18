@@ -1,0 +1,15 @@
+/* Cores padrao claro*/
+
+body{
+    background-color: #f0f0f0;
+    color: #333333;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/*Cores do modo escuro*/
+
+body.dark-mode{
+    background-color: #121212;
+    color: #ffffff;
+}
+
