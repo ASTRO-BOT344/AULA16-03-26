@@ -1,0 +1,43 @@
+Documentação Técnica de Segurança (Avaliação Estática / Pen Test)
+1. Escopo e Identificação do Alvo
+Alvo da Análise: Interface Web do Repositório GitHub AULA16-03-26.
+
+Organização / Proprietário: ASTRO-BOT344.
+
+Sessão Autenticada: Utilizador Onaip-Victor (ID: 231793525).
+
+Metodologia: Análise estática de código-fonte (Client-Side), revisão de cabeçalhos de segurança, gestão de sessão e injeção de dependências.
+
+2. Superfície de Ataque e Vetores Analisados
+Dado que o documento reflete o lado do cliente de uma plataforma SaaS (GitHub), a análise concentrou-se nos seguintes vetores:
+
+Gestão de Identidade e Sessão: O código revela parâmetros de telemetria e identificação de sessão, como visitor-payload, visitor-hmac e tokens de requisição (request-id).
+
+Integrações de IA (GitHub Copilot): Uma vasta gama de funcionalidades (Feature Flags) do Copilot está exposta no lado do cliente, incluindo copilotApiOverrideUrl: "https://api.individual.githubcopilot.com", o que representa um ponto de comunicação crítico que deve ser protegido contra interceções (Man-in-the-Middle).
+
+Injeção de Scripts (XSS): O sistema carrega múltiplos scripts externos de subdomínios da AWS e da própria infraestrutura do GitHub (github-cloud.s3.amazonaws.com, github.githubassets.com).
+
+3. Avaliação de Defesas e Mitigações Ativas
+O código demonstra uma postura de segurança robusta implementada pelo GitHub, contendo as seguintes contramedidas visíveis:
+
+3.1. Proteção contra CSRF e XSS
+Nonces de Segurança: A aplicação utiliza tokens criptográficos de uso único (html-safe-nonce e fetch-nonce) em formulários e requisições para evitar ataques de falsificação de requisição entre sites (CSRF) e mitigar ataques XSS.
+
+Subresource Integrity (SRI): Todos os scripts (<script type="module">) e folhas de estilo externos utilizam a tag crossorigin="anonymous", uma prática que garante a integridade dos ficheiros carregados de CDNs, evitando a execução de código malicioso caso o servidor de origem seja comprometido.
+
+3.2. Prevenção de Fugas de Dados (Data Leakage)
+Secret Scanning: A análise das featureFlags revela que funcionalidades ativas de proteção de código, como secret_scanning_push_protection_exempt e spark_prompt_secret_scanning, estão operacionais no repositório. Isto impede o commit acidental de senhas, chaves de API e tokens para o código aberto.
+
+3.3. Proteções Adicionais
+O cabeçalho inclui oauth_authorize_clickjacking_protection, uma defesa explícita contra ataques de sobreposição de interface (Clickjacking) durante fluxos de autenticação.
+
+4. Conclusão Técnica e Recomendações
+Com base na análise estática, o ambiente do repositório reflete as rigorosas políticas de segurança padrão da arquitetura do GitHub.
+
+Recomendações (Boas Práticas para o Proprietário do Repositório):
+
+Auditoria de Tokens: Como o utilizador Onaip-Victor possui forte integração com as APIs do Copilot (identificado nas chaves de configuração), é vital garantir que os Personal Access Tokens (PATs) possuam o princípio de menor privilégio e datas de expiração curtas.
+
+Monitorização do Secret Scanning: Recomenda-se manter as regras do Secret Scanning sempre ativas no ramo (branch) main para evitar incidentes de exposição de credenciais em futuros pushes.
+
+Proteção de Branches: Implementar regras que exijam revisões (Pull Requests) antes da inserção direta de código na main, dado o cariz educativo e colaborativo (Aula) do projeto.
